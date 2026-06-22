@@ -23,6 +23,6 @@
     "electron": "^31.0.0",
     "electron-builder": "^24.13.3",
     "rimraf": "^5.0.7",
-    "wait-on": "^7.2.5"
+    "wait-on": "^9.0.10"
   }
 }
