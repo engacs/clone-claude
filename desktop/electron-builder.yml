@@ -1,0 +1,34 @@
+appId: com.free-claude-code.desktop
+productName: Free Claude Code
+directories:
+  output: dist
+files:
+  - main.js
+  - preload.js
+  - package.json
+  - icon-tray.png
+  - ../api/admin_static/**/*
+extraResources:
+  - from: binaries
+    to: binaries
+    filter:
+      - "**/*"
+mac:
+  category: public.app-category.developer-tools
+  target:
+    - dmg
+    - zip
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: entitlements.plist
+  entitlementsInherit: entitlements.plist
+dmg:
+  background: null
+  iconSize: 100
+  contents:
+    - x: 130
+      y: 220
+    - x: 410
+      y: 220
+      type: link
+      path: /Applications

@@ -15,3 +15,15 @@ debug-*.log
 llama_cache
 .smoke-results
 .vscode
+
+# Electron Desktop Build
+desktop/node_modules/
+desktop/dist/
+desktop/binaries/fcc-server*
+
+# PyInstaller Build Caches
+dist/
+build/
+/fcc-server.spec
+nohup.out
+server.log

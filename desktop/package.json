@@ -1,0 +1,28 @@
+{
+  "name": "free-claude-code-desktop",
+  "version": "2.3.15",
+  "description": "Free Claude Code native macOS Electron App",
+  "main": "main.js",
+  "scripts": {
+    "dev": "concurrently -k -s first -n \"Backend,Electron\" -c \"blue,green\" \"uv run python ../server.py\" \"wait-on http://localhost:8082 && electron .\"",
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "clean": "rimraf dist"
+  },
+  "keywords": [
+    "electron",
+    "fastapi",
+    "free-claude-code"
+  ],
+  "author": "Alishahryar",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3",
+    "rimraf": "^5.0.7",
+    "wait-on": "^7.2.5"
+  }
+}
