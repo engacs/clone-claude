@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, Tray, ipcMain } = require('electron');
+const { app, BrowserWindow, Menu, Tray, ipcMain, nativeImage } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
 const net = require('net');
@@ -78,8 +78,10 @@ async function startBackend() {
 }
 
 function createTray() {
-  const iconPath = path.join(__dirname, 'icon-tray.png'); // Placeholder or simple icon
-  tray = new Tray(iconPath);
+  const icon = nativeImage.createFromDataURL(
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAEUlEQVR42mNkYPj/HwWUTg0EABJ7Az97491BAAAAAElFTkSuQmCC'
+  );
+  tray = new Tray(icon);
   
   const updateMenu = () => {
     const contextMenu = Menu.buildFromTemplate([
@@ -113,7 +115,101 @@ function createTray() {
   };
   
   updateMenu();
-  tray.setToolTip('Free Claude Code Proxy');
+  tray.setToolTip('iXali AI Proxy');
+}
+
+function createAppMenu() {
+  const { dialog } = require('electron');
+  
+  const template = [
+    {
+      label: 'iXali AI',
+      submenu: [
+        {
+          label: 'About iXali AI',
+          click: () => {
+            dialog.showMessageBox(mainWindow, {
+              type: 'info',
+              title: 'About iXali AI',
+              message: 'iXali AI',
+              detail: `Version: 2.3.15\n\nAn advanced native macOS proxy controller and model routing admin panel for coding agents.\n\nCreated by Alishahryar.\nLicensed under MIT.`,
+              buttons: ['OK']
+            });
+          }
+        },
+        { type: 'separator' },
+        { role: 'services' },
+        { type: 'separator' },
+        { role: 'hide' },
+        { role: 'hideOthers' },
+        { role: 'unhide' },
+        { type: 'separator' },
+        { role: 'quit' }
+      ]
+    },
+    {
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'selectAll' }
+      ]
+    },
+    {
+      label: 'Admin',
+      submenu: [
+        {
+          label: 'Open Admin UI',
+          accelerator: 'CmdOrCtrl+O',
+          click: () => {
+            if (mainWindow) {
+              mainWindow.show();
+              mainWindow.focus();
+            } else {
+              createWindow();
+            }
+          }
+        },
+        {
+          label: 'Restart Proxy Server',
+          accelerator: 'CmdOrCtrl+R',
+          click: async () => {
+            if (backendProcess) {
+              backendProcess.kill();
+              await startBackend();
+            }
+          },
+          enabled: !isDev
+        },
+        { type: 'separator' },
+        {
+          label: 'Toggle Developer Tools',
+          accelerator: 'Alt+CmdOrCtrl+I',
+          click: () => {
+            if (mainWindow) {
+              mainWindow.webContents.toggleDevTools();
+            }
+          }
+        }
+      ]
+    },
+    {
+      label: 'Window',
+      submenu: [
+        { role: 'minimize' },
+        { role: 'zoom' },
+        { type: 'separator' },
+        { role: 'front' }
+      ]
+    }
+  ];
+
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
 }
 
 function createWindow() {
@@ -155,6 +251,7 @@ app.whenReady().then(async () => {
   
   await startBackend();
   createTray();
+  createAppMenu();
   createWindow();
 
   app.on('activate', () => {

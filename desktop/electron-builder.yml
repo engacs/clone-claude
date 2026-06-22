@@ -1,5 +1,5 @@
-appId: com.free-claude-code.desktop
-productName: Free Claude Code
+appId: com.ixali-ai.desktop
+productName: iXali AI
 directories:
   output: dist
 files:

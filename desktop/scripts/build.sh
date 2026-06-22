@@ -6,7 +6,7 @@ NC='\033[0m'
 BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 
-echo -e "${BLUE}=== Free Claude Code Electron macOS App Builder ===${NC}"
+echo -e "${BLUE}=== iXali AI Electron macOS App Builder ===${NC}"
 
 # Step 1: Package the Python server backend
 echo -e "${BLUE}[1/4] Compiling Python FastAPI server via PyInstaller...${NC}"
@@ -44,4 +44,4 @@ npm install
 npm run dist
 
 echo -e "${GREEN}=== Electron macOS app build completed successfully! ===${NC}"
-echo -e "Target output: ${BLUE}desktop/dist/Free Claude Code-2.3.15.dmg${NC}"
+echo -e "Target output: ${BLUE}desktop/dist/iXali AI-2.3.15.dmg${NC}"
