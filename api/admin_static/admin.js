@@ -29,6 +29,13 @@ const VIEW_GROUPS = [
     sections: ["messaging", "voice"],
     containerId: "messagingSections",
   },
+  {
+    id: "console_logs",
+    label: "Console Logs",
+    title: "Console Logs",
+    sections: [],
+    containerId: "consoleLogsTextarea",
+  },
 ];
 
 const byId = (id) => document.getElementById(id);
@@ -137,6 +144,10 @@ function setActiveView(viewId, { scroll = false } = {}) {
     VIEW_GROUPS.find((view) => view.id === viewId) || VIEW_GROUPS[0];
   state.activeView = activeView.id;
   byId("pageTitle").textContent = activeView.title;
+
+  if (viewId === "console_logs") {
+    loadLogs();
+  }
 
   document.querySelectorAll(".nav-link").forEach((link) => {
     const selected = link.dataset.view === activeView.id;
@@ -489,9 +500,37 @@ function showMessage(message, kind = "") {
   area.className = `message-area ${kind}`.trim();
 }
 
+async function loadLogs() {
+  const textarea = byId("consoleLogsTextarea");
+  if (!textarea) return;
+  textarea.value = "Loading live server logs...";
+  try {
+    const result = await api("/admin/api/logs");
+    textarea.value = result.logs || "No logs available.";
+    textarea.scrollTop = textarea.scrollHeight;
+  } catch (error) {
+    textarea.value = `Failed to load server logs: ${error.message}`;
+  }
+}
+
+function initTheme() {
+  const toggle = byId("themeToggle");
+  if (!toggle) return;
+  const savedTheme = localStorage.getItem("theme") || "dark";
+  if (savedTheme === "light") {
+    document.body.classList.add("light-theme");
+  }
+  toggle.addEventListener("click", () => {
+    const isLight = document.body.classList.toggle("light-theme");
+    localStorage.setItem("theme", isLight ? "light" : "dark");
+  });
+}
+
 byId("validateButton").addEventListener("click", () => validate(true));
 byId("applyButton").addEventListener("click", apply);
+byId("refreshLogsButton").addEventListener("click", loadLogs);
 
+initTheme();
 load().catch((error) => {
   showMessage(error.message, "error");
 });

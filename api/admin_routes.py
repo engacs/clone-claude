@@ -13,6 +13,7 @@ from fastapi import APIRouter, BackgroundTasks, HTTPException, Request
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
+from config.paths import server_log_path
 from config.settings import Settings
 from config.settings import get_settings as get_cached_settings
 from providers.registry import ProviderRegistry
@@ -155,6 +156,21 @@ async def admin_status(request: Request):
         "provider_status": provider_config_status(),
         "cached_models": cached_models,
     }
+
+
+@router.get("/admin/api/logs")
+async def get_admin_logs(request: Request, lines: int = 150):
+    require_loopback_admin(request)
+    log_file = server_log_path()
+    if not log_file.is_file():
+        return {"logs": "No log file found."}
+    try:
+        with open(log_file, encoding="utf-8", errors="ignore") as f:
+            content = f.readlines()
+        last_lines = content[-lines:] if len(content) > lines else content
+        return {"logs": "".join(last_lines)}
+    except Exception as exc:
+        return {"logs": f"Error reading logs: {exc}"}
 
 
 @router.get("/admin/api/providers/local-status")

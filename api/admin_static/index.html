@@ -25,6 +25,7 @@
             <p>Server Control</p>
           </div>
         </div>
+        <button id="themeToggle" class="theme-toggle-btn" type="button">🌓 Toggle Theme</button>
         <nav id="sectionNav" class="section-nav" aria-label="Admin views"></nav>
       </aside>
 
@@ -64,6 +65,21 @@
               class="form-sections"
               aria-label="Messaging configuration"
             ></div>
+          </section>
+
+          <section id="view-console_logs" class="admin-view" data-view="console_logs" hidden>
+            <div class="settings-section">
+              <div class="section-heading">
+                <div>
+                  <h3>Console Logs</h3>
+                  <p>Real-time application output and proxy request logs.</p>
+                </div>
+                <button id="refreshLogsButton" class="secondary-button" type="button">Refresh Logs</button>
+              </div>
+              <div class="field">
+                <textarea id="consoleLogsTextarea" readonly style="font-family: monospace; font-size: 13px; line-height: 1.5; height: 420px; background: var(--input); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 16px; width: 100%; resize: none;"></textarea>
+              </div>
+            </div>
           </section>
         </div>
       </main>

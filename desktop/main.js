@@ -220,6 +220,7 @@ function createWindow() {
     minHeight: 600,
     show: false,
     frame: false, // Frameless design
+    transparent: true, // Transparent window to enable vibrancy showing through
     titleBarStyle: 'hiddenInset', // macOS traffic lights overlay
     vibrancy: 'under-window', // macOS translucency effect
     visualEffectState: 'active',
