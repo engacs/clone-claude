@@ -55,7 +55,7 @@ async function startBackend() {
 
   // Resolve PyInstaller executable path outside ASAR archive
   const binaryPath = path.join(process.resourcesPath, 'binaries', 'fcc-server');
-  
+
   backendProcess = spawn(binaryPath, [], {
     env: {
       ...process.env,
@@ -82,13 +82,13 @@ function createTray() {
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAEUlEQVR42mNkYPj/HwWUTg0EABJ7Az97491BAAAAAElFTkSuQmCC'
   );
   tray = new Tray(icon);
-  
+
   const updateMenu = () => {
     const contextMenu = Menu.buildFromTemplate([
       { label: `Proxy: Running on port ${currentPort}`, enabled: false },
       { type: 'separator' },
-      { 
-        label: 'Open Admin UI', 
+      {
+        label: 'Open Admin UI',
         click: () => {
           if (mainWindow) {
             mainWindow.show();
@@ -96,10 +96,10 @@ function createTray() {
           } else {
             createWindow();
           }
-        } 
+        }
       },
-      { 
-        label: 'Restart Proxy Server', 
+      {
+        label: 'Restart Proxy Server',
         click: async () => {
           if (backendProcess) {
             backendProcess.kill();
@@ -113,14 +113,14 @@ function createTray() {
     ]);
     tray.setContextMenu(contextMenu);
   };
-  
+
   updateMenu();
   tray.setToolTip('iXali AI Proxy');
 }
 
 function createAppMenu() {
   const { dialog } = require('electron');
-  
+
   const template = [
     {
       label: 'iXali AI',
@@ -132,7 +132,7 @@ function createAppMenu() {
               type: 'info',
               title: 'About iXali AI',
               message: 'iXali AI',
-              detail: `Version: 2.3.15\n\nAn advanced native macOS proxy controller and model routing admin panel for coding agents.\n\nCreated by Alishahryar.\nLicensed under MIT.`,
+              detail: `Version: 2.3.15\n\nAn advanced native macOS proxy controller and model routing admin panel for coding agents.\n\nCreated by Abdisalam Nor (engacs).\nLicensed under MIT.`,
               buttons: ['OK']
             });
           }
@@ -248,7 +248,7 @@ app.whenReady().then(async () => {
   if (isDev) {
     currentPort = 8082;
   }
-  
+
   await startBackend();
   createTray();
   createAppMenu();
