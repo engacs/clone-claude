@@ -36,6 +36,13 @@ const VIEW_GROUPS = [
     sections: [],
     containerId: "consoleLogsTextarea",
   },
+  {
+    id: "instructions",
+    label: "How to Use",
+    title: "How to Use",
+    sections: [],
+    containerId: "view-instructions",
+  },
 ];
 
 const byId = (id) => document.getElementById(id);
@@ -218,7 +225,10 @@ function updateProviderCard(providerId, status, label, metaText) {
 
 function renderSections(sections, fields) {
   VIEW_GROUPS.forEach((view) => {
-    byId(view.containerId).innerHTML = "";
+    if (view.sections && view.sections.length > 0) {
+      const container = byId(view.containerId);
+      if (container) container.innerHTML = "";
+    }
   });
 
   const sectionById = new Map(sections.map((section) => [section.id, section]));

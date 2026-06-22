@@ -81,6 +81,54 @@
               </div>
             </div>
           </section>
+
+          <section id="view-instructions" class="admin-view" data-view="instructions" hidden>
+            <div class="settings-section">
+              <div class="section-heading">
+                <div>
+                  <h3>How to Use iXali AI</h3>
+                  <p>A quick-start guide to configure and connect your coding agents to this proxy.</p>
+                </div>
+              </div>
+              
+              <div class="guide-steps">
+                <div class="guide-card">
+                  <div class="guide-step-header">
+                    <div class="guide-step-number">1</div>
+                    <h4>Configure a Provider</h4>
+                  </div>
+                  <p>Go to the <strong>Providers</strong> tab. Ensure you have the appropriate API key entered for cloud services (like OpenRouter or DeepSeek) or local URL defined (like Ollama or llama.cpp).</p>
+                </div>
+
+                <div class="guide-card">
+                  <div class="guide-step-header">
+                    <div class="guide-step-number">2</div>
+                    <h4>Test the Connection</h4>
+                  </div>
+                  <p>Click the <strong>Test</strong> or <strong>Refresh models</strong> button next to the provider. The status pill will display the count of available models if successful.</p>
+                </div>
+
+                <div class="guide-card">
+                  <div class="guide-step-header">
+                    <div class="guide-step-number">3</div>
+                    <h4>Set Default Models</h4>
+                  </div>
+                  <p>Go to the <strong>Model Config</strong> tab. Set your preferred model names for coding tasks (e.g. <code>open_router/anthropic/claude-3-5-sonnet</code>). Click <strong>Apply</strong> to save changes.</p>
+                </div>
+
+                <div class="guide-card">
+                  <div class="guide-step-header">
+                    <div class="guide-step-number">4</div>
+                    <h4>Point Claude Code to iXali AI</h4>
+                  </div>
+                  <p>To direct Claude Code to proxy requests through this server, set the environment variable and run the command:</p>
+                  <pre class="code-snippet"><code>export ANTHROPIC_BASE_URL=http://localhost:8082/v1
+claude</code></pre>
+                  <span class="guide-note">Note: If the application uses a dynamic port (shown in the Menu Bar icon status), use that port instead of 8082.</span>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
       </main>
 
