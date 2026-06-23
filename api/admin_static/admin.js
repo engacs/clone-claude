@@ -31,7 +31,7 @@ const VIEW_GROUPS = [
   },
   {
     id: "console_logs",
-    label: "Console Logs",
+    label: "Console",
     title: "Console Logs",
     sections: [],
     containerId: "consoleLogsTextarea",
@@ -116,7 +116,6 @@ async function load() {
   const config = await api("/admin/api/config");
   state.config = config;
   state.fields = new Map(config.fields.map((field) => [field.key, field]));
-  renderNav();
   renderProviders(config.provider_status);
   renderSections(config.sections, config.fields);
   byId("configPath").textContent = config.paths.managed;
@@ -508,6 +507,24 @@ function showMessage(message, kind = "") {
   const area = byId("messageArea");
   area.textContent = message;
   area.className = `message-area ${kind}`.trim();
+  
+  if (kind === "error" && (message.includes("fetch") || message.includes("Failed"))) {
+    // Prevent duplicate buttons
+    if (area.querySelector(".retry-btn")) return;
+    
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "secondary-button retry-btn";
+    btn.style.marginLeft = "12px";
+    btn.style.padding = "2px 8px";
+    btn.style.minHeight = "24px";
+    btn.style.fontSize = "12px";
+    btn.textContent = "Retry";
+    btn.addEventListener("click", () => {
+      load().catch((err) => showMessage(err.message, "error"));
+    });
+    area.appendChild(btn);
+  }
 }
 
 async function loadLogs() {
@@ -541,6 +558,7 @@ byId("applyButton").addEventListener("click", apply);
 byId("refreshLogsButton").addEventListener("click", loadLogs);
 
 initTheme();
+renderNav();
 load().catch((error) => {
   showMessage(error.message, "error");
 });

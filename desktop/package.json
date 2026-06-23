@@ -1,6 +1,6 @@
 {
   "name": "ixali-ai",
-  "version": "2.3.16",
+  "version": "2.3.17",
   "description": "iXali AI - Native macOS Electron App",
   "main": "main.js",
   "scripts": {
